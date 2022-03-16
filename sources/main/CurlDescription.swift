@@ -31,15 +31,15 @@ public struct CurlDescription
     /// - Returns: The cURL equivalent of the instance.
     public func cURLDescription() -> String
     {
-        return [
-                "curl -v \(method()) \(absoluteURL())",
-                body(),
-                cookieComponent(),
-                credentials()?.joined(separator: lineSeparator),
-                headers()?.joined(separator: lineSeparator)
-            ]
-            .compactMap { $0 }
-            .joined(separator: lineSeparator)
+        [
+            "curl -v \(method()) \(absoluteURL())",
+            body(),
+            cookieComponent(),
+            credentials()?.joined(separator: lineSeparator),
+            headers()?.joined(separator: lineSeparator)
+        ]
+        .compactMap { $0 }
+        .joined(separator: lineSeparator)
     }
     
     private func method() -> String
@@ -49,7 +49,7 @@ public struct CurlDescription
     
     private func absoluteURL() -> String
     {
-        return "\"\(url.absoluteString)\""
+        "\"\(url.absoluteString)\""
     }
     
     private func credentials() -> [String]?
@@ -89,7 +89,9 @@ public struct CurlDescription
             sessionHeaders.merge(requestHeaders, uniquingKeysWith: { $1 })
             return sessionHeaders
         }()
-        guard allHeaders.count > 0 else { return nil }
+        guard !allHeaders.isEmpty else {
+            return nil
+        }
         return allHeaders.map {
             let escapedValue = "\($0.1)".replacingOccurrences(of: "\"", with: "\\\"")
             return "-H \"\($0.0): \(escapedValue)\""
