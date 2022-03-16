@@ -25,8 +25,5 @@ jobs:
       - name: Use latest Swift version
         uses: fwal/setup-swift@v1
         
-      - name: Build for iOS
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild build-for-testing -scheme Report -sdk iphonesimulator | xcpretty
-
-      - name: Run iOS tests
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild test-without-building -scheme Report -sdk iphonesimulator | xcpretty
+      - name: Build and test
+        run: swift test -Xswiftc "-sdk" -Xswiftc "`xcrun --sdk iphonesimulator --show-sdk-path`" -Xswiftc "-target" -Xswiftc "x86_64-apple-ios15.4-simulator"
