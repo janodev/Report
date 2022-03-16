@@ -15,6 +15,8 @@ settings:
 targets:
 
   Report:
+    deploymentTarget:
+      iOS: 15.4
     type: framework
     platform: iOS
     postCompileScripts:
@@ -23,18 +25,20 @@ targets:
     scheme:
       testTargets:
          - name: ReportTests
-           parallelizable: true
-           randomExecutionOrder: true
     settings:
        CURRENT_PROJECT_VERSION: 1
        INFOPLIST_FILE: targets/main/Info.plist
        IPHONEOS_DEPLOYMENT_TARGET: 15.4
        PRODUCT_BUNDLE_IDENTIFIER: dev.jano.report
        PRODUCT_NAME: Report
+       TARGETED_DEVICE_FAMILY: 1
+       SUPPORTS_MACCATALYST: NO
     sources: sources/main
     type: framework
 
   ReportTests:
+    deploymentTarget:
+      iOS: 15.4
     dependencies:
       - target: Report
     platform: iOS
@@ -43,8 +47,6 @@ targets:
       gatherCoverageData: true
       testTargets: 
         - name: ReportTests
-          parallelizable: true
-          randomExecutionOrder: true
     settings:
       INFOPLIST_FILE: targets/tests/Info.plist
       PRODUCT_BUNDLE_IDENTIFIER: dev.jano.report.tests
